@@ -12,4 +12,20 @@ abstract class _Counter with Store {
   void increment() {
     value++;
   }
+
+  @action
+  void decrement(){
+    value--;
+  }
+
+  @action
+  void reset(){
+    value = 0;
+  }
+}
+
+class ResetCounter{
+  void reset(){
+    
+  }
 }

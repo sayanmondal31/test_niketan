@@ -1,9 +1,10 @@
 import 'dart:developer';
+import 'dart:html';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/material.dart';
 import 'counter.dart';
 
-void main()=>runApp(CounterInterface());
+void main() => runApp(CounterInterface());
 
 class CounterInterface extends StatelessWidget {
   @override
@@ -15,7 +16,9 @@ class CounterInterface extends StatelessWidget {
 }
 
 class CounterHome extends StatelessWidget {
-  final Counter counter =  Counter();
+  final Counter counter = Counter();
+  final Counter counter1 = Counter();
+  final Counter counter2 = Counter();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +29,45 @@ class CounterHome extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Observer(builder: (_) {return Text("${counter.value}");})
+            CounterShowContainer(counter: counter),
+            CounterShowContainer(counter: counter1),
+            CounterShowContainer(counter: counter2),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed:counter.increment ,),
+      
+    );
+  }
+}
+
+class CounterShowContainer extends StatelessWidget {
+  const CounterShowContainer({
+    Key key,
+    @required this.counter,
+  }) : super(key: key);
+
+  final Counter counter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(children: [
+        Observer(builder: (_) {
+          return Text("${counter.value}");
+        }),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RaisedButton( 
+              child: Text("down"),
+              onPressed: counter.decrement),
+            SizedBox(height:10),
+            RaisedButton(
+              child: Text("up"),
+              onPressed: counter.increment)
+          ],
+        )
+      ]),
     );
   }
 }
